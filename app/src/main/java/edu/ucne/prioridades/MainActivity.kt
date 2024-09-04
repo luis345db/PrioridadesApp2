@@ -155,8 +155,9 @@ class MainActivity : ComponentActivity() {
                                     errorMessage = "La descripción no puede estar vacía"
                                 else if (diasCompromiso.isBlank())
                                     errorMessage = "Días de compromiso no puede ir vacío"
-                                else if (diasCompromiso.toInt() <= 0)
-                                    errorMessage = "Días de compromiso no puede ser menor a 1"
+                                else if(diasCompromiso.toInt() <= 0 || diasCompromiso.toInt() > 30)
+                                    errorMessage = "Días de compromiso no puede ser menor a 1 o mayor a 30"
+
                                 else {
                                     scope.launch {
                                         savePrioridad(
