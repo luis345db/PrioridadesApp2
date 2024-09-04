@@ -217,10 +217,7 @@ class MainActivity : ComponentActivity() {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ){
-            Text(
-                text = it.prioridadId.toString(),
-                modifier = Modifier.weight(1f)
-            )
+
             Text(
                 text = it.descripcion,
                 modifier = Modifier.weight(2f)
