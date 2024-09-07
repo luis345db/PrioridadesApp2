@@ -59,7 +59,7 @@ android {
 dependencies {
 
     //navigation
-    implementation("androidx.navigation:navigation-compose:2.8.0-rc01")
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
     //room
