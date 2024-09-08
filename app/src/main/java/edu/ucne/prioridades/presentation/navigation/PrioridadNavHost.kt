@@ -41,8 +41,13 @@ fun PrioridadNavHost(
                 },
                 goToAddPrioridad = {
                     navHost.navigate(Screen.Prioridad(0))
-                }
-            )
+                },
+                onEditPrioridad = {
+                    navHost.navigate(Screen.Prioridad(0))
+                },
+                onDeletePrioridad = { navHost.navigate(Screen.Prioridad(0)) },
+
+                )
         }
 
         composable<Screen.Prioridad> {
