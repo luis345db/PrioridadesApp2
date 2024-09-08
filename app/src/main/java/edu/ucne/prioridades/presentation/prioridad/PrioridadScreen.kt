@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,14 +32,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import edu.ucne.prioridades.data.local.database.PrioridadDB
 import edu.ucne.prioridades.data.local.entities.PrioridadEntity
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrioridadScreen(
-    goPrioridadList: () -> Unit
+    prioridadDb: PrioridadDB,
+    //goPrioridadList: () -> Unit,
+    goBack: () -> Unit,
+    prioridadId: Int
 ) {
+    val dao = prioridadDb.prioridadDao()
 
     var descripcion by remember { mutableStateOf("") }
     var diasCompromiso by remember { mutableStateOf("") }
@@ -46,7 +52,15 @@ fun PrioridadScreen(
         mutableStateOf(null)
     }
     val scope = rememberCoroutineScope()
-
+    LaunchedEffect(prioridadId) {
+        if (prioridadId != 0) {
+            val prioridad = dao.find(prioridadId)
+            if (prioridad != null) {
+                descripcion = prioridad.descripcion
+                diasCompromiso = prioridad.diasCompromiso.toString()
+            }
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -54,7 +68,7 @@ fun PrioridadScreen(
             TopAppBar(
                 title = { Text("Registro de Prioridades") },
                 navigationIcon = {
-                    IconButton(onClick = { goPrioridadList }) {
+                    IconButton(onClick = { goBack }) {
                         Icon(imageVector = Icons.Filled.Menu, contentDescription = "Menú")
                     }
                 },
@@ -150,7 +164,7 @@ fun PrioridadScreen(
                                     descripcion = ""
                                     diasCompromiso = ""
                                 }
-                                goPrioridadList()
+                                goBack()
                             }
                         }
                     ) {
