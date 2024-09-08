@@ -8,17 +8,15 @@ import edu.ucne.prioridades.data.local.entities.PrioridadEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PrioridadDao {
-    @Upsert()
-    suspend fun save(prioridad: PrioridadEntity)
+interface PrioridadDao { @Upsert()
+suspend fun save(prioridad: PrioridadEntity)
 
     @Query(
         """
-        SELECT * 
-        FROM Prioridades 
-        WHERE prioridadId=:id  
-        LIMIT 1
+            SELECT * FROM Prioridades WHERE prioridadId=:id LIMIT 1
+
         """
+
     )
     suspend fun find(id: Int): PrioridadEntity?
 
@@ -27,4 +25,8 @@ interface PrioridadDao {
 
     @Query("SELECT * FROM Prioridades")
     fun getAll(): Flow<List<PrioridadEntity>>
+
+    @Query("SELECT * FROM Prioridades WHERE descripcion = :descripcion LIMIT 1")
+    suspend fun findByDescripcion(descripcion: String): PrioridadEntity?
+
 }
