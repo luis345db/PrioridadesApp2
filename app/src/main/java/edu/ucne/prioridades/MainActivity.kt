@@ -29,7 +29,6 @@ import edu.ucne.prioridades.presentation.prioridad.PrioridadListScreen
 import edu.ucne.prioridades.ui.theme.PrioridadesTheme
 
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var prioridadDb: PrioridadDB
@@ -37,26 +36,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         prioridadDb = Room.databaseBuilder(
             applicationContext,
-            PrioridadDB::class.java, "Prioridad.db"
+            PrioridadDB :: class.java,
+            "Prioridad.db"
         ).fallbackToDestructiveMigration().build()
-
         setContent {
             PrioridadesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    ){
-                      val navHost = rememberNavController()
-                        PrioridadNavHost(navHost)
-                    }
-                }
+                val navHost = rememberNavController()
+                PrioridadNavHost(navHost, prioridadDb)
             }
         }
+    }
     }
 
 
@@ -71,15 +62,8 @@ class MainActivity : ComponentActivity() {
     @Preview(showBackground = true, showSystemUi = true)
     @Composable
     fun GreetingPreview() {
-        PrioridadesTheme {
-            val prioridadList = listOf(
-                PrioridadEntity(1, "Alta", 4),
-                PrioridadEntity(2, "Baja", 20),
-            )
-            PrioridadListScreen(
-                prioridadList,
-                onAddPrioridad = {}
-            )
-        }
-    }
+        val prioridadList = listOf(
+            PrioridadEntity(1, "Enel", 9),
+            PrioridadEntity(2, "Juan", 9),
+        )
 }
