@@ -3,10 +3,8 @@ package edu.ucne.prioridades.presentation.prioridad
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,6 +30,8 @@ fun PrioridadListScreen(
 
     goToPrioridad: (Int) -> Unit,
     goToAddPrioridad: () -> Unit,
+    onEditPrioridad: () -> Unit,
+    onDeletePrioridad: () -> Unit
 ) {
     Scaffold (
         topBar = {
@@ -80,7 +80,6 @@ fun PrioridadRow(
             .clickable { goToPrioridad(prioridad.prioridadId ?: 0) }
 
     ){
-
         Text(
             text = prioridad.descripcion,
             modifier = Modifier.weight(2f)
