@@ -62,6 +62,7 @@ fun PrioridadScreen(
 
     errorMessage = when {
         !isDescripcionValid -> "Favor ingresar la descripción"
+
         !isDiasCompromisoValid -> "El valor de días de compromiso debe ser un número positivo mayor que cero"
         else -> null
     }
@@ -141,9 +142,7 @@ fun PrioridadScreen(
                             diasCompromiso = it
                             errorMessage = null
                         },
-                        /*keyboardActions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            )*/
+
                     )
 
                     Spacer(
