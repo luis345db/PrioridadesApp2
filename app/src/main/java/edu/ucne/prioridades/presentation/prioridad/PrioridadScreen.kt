@@ -134,7 +134,7 @@ fun PrioridadScreen(
 
                         modifier = Modifier.fillMaxWidth(),
                         label = {
-                            Text(text = "Dias de compromiso")
+                            Text(text = "Días de compromiso")
                         },
                         value = diasCompromiso,
                         onValueChange = {
