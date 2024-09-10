@@ -119,7 +119,7 @@ fun PrioridadScreen(
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         label = {
-                            Text(text = "Descripcion")
+                            Text(text = "Descripción")
                         },
                         value = descripcion,
                         onValueChange = {
