@@ -4,17 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
-
-import androidx.compose.foundation.layout.fillMaxSize
-
-import androidx.compose.foundation.layout.padding
-
-import androidx.compose.material3.Scaffold
 
 import androidx.compose.runtime.Composable
-
-import androidx.compose.ui.Modifier
 
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +16,6 @@ import edu.ucne.prioridades.data.local.database.PrioridadDb
 import edu.ucne.prioridades.data.local.entities.PrioridadEntity
 import edu.ucne.prioridades.presentation.navigation.PrioridadNavHost
 
-import edu.ucne.prioridades.presentation.prioridad.PrioridadListScreen
 import edu.ucne.prioridades.ui.theme.PrioridadesTheme
 
 
@@ -58,7 +48,7 @@ class MainActivity : ComponentActivity() {
 
     @Preview(showBackground = true, showSystemUi = true)
     @Composable
-    fun GreetingPreview() {
+    fun PrioridadScreenPreview() {
         val prioridadList = listOf(
             PrioridadEntity(1, "Enel", 9),
             PrioridadEntity(2, "Juan", 9),
