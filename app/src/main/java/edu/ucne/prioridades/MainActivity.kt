@@ -54,11 +54,6 @@ class MainActivity : ComponentActivity() {
 
 
 
-   /* private suspend fun savePrioridad(prioridad: PrioridadEntity) {
-        prioridadDb.prioridadDao().save(prioridad)
-    }
-*/
-
 
 
     @Preview(showBackground = true, showSystemUi = true)
