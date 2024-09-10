@@ -20,8 +20,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.room.Room
-import dagger.hilt.android.AndroidEntryPoint
-import edu.ucne.prioridades.data.local.database.PrioridadDB
+
+import edu.ucne.prioridades.data.local.database.PrioridadDb
 import edu.ucne.prioridades.data.local.entities.PrioridadEntity
 import edu.ucne.prioridades.presentation.navigation.PrioridadNavHost
 
@@ -31,14 +31,14 @@ import edu.ucne.prioridades.ui.theme.PrioridadesTheme
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var prioridadDb: PrioridadDB
+    private lateinit var prioridadDb: PrioridadDb
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         prioridadDb = Room.databaseBuilder(
             applicationContext,
-            PrioridadDB :: class.java,
+            PrioridadDb :: class.java,
             "Prioridad.db"
         ).fallbackToDestructiveMigration().build()
         setContent {

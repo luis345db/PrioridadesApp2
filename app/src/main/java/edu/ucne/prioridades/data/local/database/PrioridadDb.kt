@@ -12,6 +12,7 @@ import edu.ucne.prioridades.data.local.entities.PrioridadEntity
     version = 2,
     exportSchema = false
 )
-abstract class PrioridadDB : RoomDatabase() {
+
+abstract class PrioridadDb : RoomDatabase() {
     abstract fun prioridadDao(): PrioridadDao
 }

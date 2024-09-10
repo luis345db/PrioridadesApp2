@@ -13,7 +13,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import edu.ucne.prioridades.presentation.prioridad.PrioridadListScreen
 import edu.ucne.prioridades.presentation.prioridad.PrioridadScreen
-import edu.ucne.prioridades.data.local.database.PrioridadDB
+
+import edu.ucne.prioridades.data.local.database.PrioridadDb
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,7 +23,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun PrioridadNavHost(
     navHost: NavHostController,
-    prioridadDb: PrioridadDB
+    prioridadDb: PrioridadDb
 ) {
     NavHost(
         navController = navHost,
