@@ -35,14 +35,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import edu.ucne.prioridades.data.local.dao.PrioridadDao
-import edu.ucne.prioridades.data.local.database.PrioridadDB
+
+import edu.ucne.prioridades.data.local.database.PrioridadDb
 import edu.ucne.prioridades.data.local.entities.PrioridadEntity
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrioridadScreen(
-    prioridadDb: PrioridadDB,
+    prioridadDb: PrioridadDb,
     //goPrioridadList: () -> Unit,
     goBack: () -> Unit,
     prioridadId: Int
@@ -61,6 +62,7 @@ fun PrioridadScreen(
 
     errorMessage = when {
         !isDescripcionValid -> "Favor ingresar la descripción"
+
         !isDiasCompromisoValid -> "El valor de días de compromiso debe ser un número positivo mayor que cero"
         else -> null
     }
@@ -118,7 +120,7 @@ fun PrioridadScreen(
                     OutlinedTextField(
                         modifier = Modifier.fillMaxWidth(),
                         label = {
-                            Text(text = "Descripcion")
+                            Text(text = "Descripción")
                         },
                         value = descripcion,
                         onValueChange = {
@@ -133,16 +135,14 @@ fun PrioridadScreen(
 
                         modifier = Modifier.fillMaxWidth(),
                         label = {
-                            Text(text = "Dias de compromiso")
+                            Text(text = "Días de compromiso")
                         },
                         value = diasCompromiso,
                         onValueChange = {
                             diasCompromiso = it
                             errorMessage = null
                         },
-                        /*keyboardActions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number
-            )*/
+
                     )
 
                     Spacer(
