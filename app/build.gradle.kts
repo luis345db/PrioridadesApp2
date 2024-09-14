@@ -4,6 +4,7 @@ plugins {
     id("com.google.devtools.ksp") version "2.0.20-1.0.24"
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.compose")
+
     alias(libs.plugins.kotlinx.serialization)
 }
 
@@ -58,6 +59,11 @@ dependencies {
     //navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+
+    //hilt
+    implementation("com.google.dagger:hilt-android:2.51")
+    ksp("com.google.dagger:hilt-android:2.51")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     //room
     implementation(libs.androidx.room.runtime)
