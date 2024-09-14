@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.room.Room
+import dagger.hilt.android.AndroidEntryPoint
 
 import edu.ucne.prioridades.data.local.database.PrioridadDb
 import edu.ucne.prioridades.data.local.entities.PrioridadEntity
@@ -18,7 +19,7 @@ import edu.ucne.prioridades.presentation.navigation.PrioridadNavHost
 
 import edu.ucne.prioridades.ui.theme.PrioridadesTheme
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var prioridadDb: PrioridadDb
