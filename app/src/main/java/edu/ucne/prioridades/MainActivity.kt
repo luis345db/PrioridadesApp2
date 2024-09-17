@@ -4,11 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
 
-import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+
+import androidx.compose.material3.Text
 
 import androidx.room.Room
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,21 +26,13 @@ import edu.ucne.prioridades.ui.theme.PrioridadesTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private lateinit var prioridadDb: PrioridadDb
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        prioridadDb = Room.databaseBuilder(
-            applicationContext,
-            PrioridadDb :: class.java,
-            "Prioridad.db"
-        ).fallbackToDestructiveMigration().build()
         setContent {
             PrioridadesTheme {
                 val navHost = rememberNavController()
-                PrioridadNavHost(navHost, prioridadDb)
+                PrioridadNavHost(navHost)
             }
         }
     }
@@ -50,8 +47,5 @@ class MainActivity : ComponentActivity() {
     @Preview(showBackground = true, showSystemUi = true)
     @Composable
     fun PrioridadScreenPreview() {
-        val prioridadList = listOf(
-            PrioridadEntity(1, "Enel", 9),
-            PrioridadEntity(2, "Juan", 9),
-        )
+
 }

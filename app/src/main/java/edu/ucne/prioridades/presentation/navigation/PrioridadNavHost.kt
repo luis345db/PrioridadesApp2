@@ -13,7 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import edu.ucne.prioridades.presentation.prioridad.PrioridadListScreen
 import edu.ucne.prioridades.presentation.prioridad.PrioridadScreen
-
+import edu.ucne.prioridades.presentation.prioridad.PrioridadViewModel.UiState
 import edu.ucne.prioridades.data.local.database.PrioridadDb
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun PrioridadNavHost(
     navHost: NavHostController,
-    prioridadDb: PrioridadDb
+
 ) {
     NavHost(
         navController = navHost,
@@ -31,12 +31,7 @@ fun PrioridadNavHost(
     ) {
         composable<Screen.PrioridadList> {
             PrioridadListScreen(
-                prioridadDb.prioridadDao().getAll()
-                    .collectAsStateWithLifecycle(
-                        initialValue = emptyList(),
-                        lifecycleOwner = LocalLifecycleOwner.current,
-                        minActiveState = Lifecycle.State.STARTED
-                    ).value,
+             //   prioridadList = UiState.prioridades,
                 goToPrioridad = {
                     navHost.navigate(Screen.Prioridad(it))
                 },
@@ -46,7 +41,9 @@ fun PrioridadNavHost(
                 onEditPrioridad = {
                     navHost.navigate(Screen.Prioridad(0))
                 },
-                onDeletePrioridad = { navHost.navigate(Screen.Prioridad(0)) },
+                onDeletePrioridad = {
+                    navHost.navigate(Screen.Prioridad(0)) },
+
 
                 )
         }
@@ -58,7 +55,7 @@ fun PrioridadNavHost(
                 goBack = {
                     navHost.navigateUp()
                 },
-                prioridadDb = prioridadDb
+
             )
         }
     }

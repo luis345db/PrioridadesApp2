@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
-    id("com.google.devtools.ksp") version "2.0.20-1.0.24"
+    alias(libs.plugins.kotlin.android)
+    id("androidx.room")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.compose")
-
     alias(libs.plugins.kotlinx.serialization)
 }
 
@@ -24,7 +24,9 @@ android {
             useSupportLibrary = true
         }
     }
-
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
