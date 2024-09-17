@@ -23,4 +23,7 @@ object AppModule {
             "Prioridad.db"
         ).fallbackToDestructiveMigration()
             .build()
+
+    @Provides
+    fun providePrioridadDao(prioridadDb: PrioridadDb) =prioridadDb.prioridadDao()
 }
