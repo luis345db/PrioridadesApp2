@@ -33,7 +33,7 @@ import edu.ucne.prioridades.presentation.prioridad.PrioridadViewModel.UiState
 fun PrioridadListScreen(
     viewModel: PrioridadViewModel = hiltViewModel(),
 
-    prioridadList: List<PrioridadEntity>,
+
 
     goToPrioridad: (Int) -> Unit,
     goToAddPrioridad: () -> Unit,
