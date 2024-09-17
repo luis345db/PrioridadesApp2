@@ -56,6 +56,13 @@ fun PrioridadScreen(
     prioridadId: Int
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = prioridadId) {
+        if (prioridadId != 0) {
+            viewModel.selectedPriodidad(prioridadId)
+        }
+    }
+
     PrioridadBodyScreen(
         uiState = uiState,
         onDescripcionChange = viewModel::onDescripcionChange,
@@ -64,7 +71,8 @@ fun PrioridadScreen(
         savePrioridad = viewModel::save,
         deletePrioridad = viewModel::delete,
         nuevoPrioridad = viewModel::nuevo,
-        goBack = goBack
+        goBack = goBack,
+        prioridadId = prioridadId
     )
     }
 
@@ -76,9 +84,12 @@ fun PrioridadBodyScreen(
     onDiasCompromisoChange: (Int) -> Unit,
     onPrioridadIdChange: (Int) -> Unit,
     savePrioridad: () -> Unit,
+    prioridadId: Int,
     deletePrioridad: () -> Unit,
     nuevoPrioridad: () -> Unit,
-    goBack: () -> Unit
+
+    goBack: () -> Unit,
+
 ){
 
     Scaffold(
@@ -132,7 +143,7 @@ fun PrioridadBodyScreen(
                         )
 
                     OutlinedTextField(
-                        label = { Text(text = "Asunto") },
+                        label = { Text(text = "Dias Compromiso") },
                         value = uiState.diasCompromiso?.toString() ?: "", // Convertimos el valor a String
                         onValueChange = { newValue ->
                             // Intentamos convertir el texto ingresado a un número entero
@@ -178,25 +189,17 @@ fun PrioridadBodyScreen(
                         Text(text = "Guardar")
                     }
 
-                    /*if (prioridadId != 0) {
+                    if (prioridadId != 0) {
                         Button(
                             onClick = {
-                                scope.launch {
-                                    try {
-                                        dao.delete(
-                                            PrioridadEntity(
-                                                prioridadId = prioridadId
-                                            )
-                                        )
-                                        goBack()
-                                    } catch (e: Exception) {
-                                        errorMessage = "Error al eliminar la prioridad."
-                                    }
+                                deletePrioridad()
+                                goBack()
+
                                 }
-                            }) {
+                            ) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = "Guardar Prioridad"
+                                contentDescription = "Eliminar Prioridad"
                             )
                             Text("Eliminar")
 
@@ -204,7 +207,7 @@ fun PrioridadBodyScreen(
                         }
 
 
-                    }*/
+                    }
                 }
 
             }
