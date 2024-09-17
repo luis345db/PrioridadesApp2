@@ -1,31 +1,38 @@
 package edu.ucne.prioridades.presentation.prioridad
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.prioridades.data.local.entities.PrioridadEntity
+import edu.ucne.prioridades.presentation.prioridad.PrioridadViewModel.UiState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrioridadListScreen(
+    viewModel: PrioridadViewModel = hiltViewModel(),
+
     prioridadList: List<PrioridadEntity>,
 
     goToPrioridad: (Int) -> Unit,
@@ -33,59 +40,77 @@ fun PrioridadListScreen(
     onEditPrioridad: () -> Unit,
     onDeletePrioridad: () -> Unit
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    PrioridadListBodyScreen(
+        uiState,
+        goToPrioridad,
+        goToAddPrioridad
+    )
+}
+
+@Composable
+fun PrioridadListBodyScreen(
+    uiState: UiState,
+    goToPrioridad: (Int) -> Unit,
+    goToAddPrioridad: () -> Unit
+){
     Scaffold (
-        topBar = {
-            TopAppBar(
-                title = { Text("Lista de Prioridades") }
-            )
-        },
+        modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { goToAddPrioridad() },
-                modifier = Modifier.padding(16.dp)
+                onClick =  goToAddPrioridad,
+
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Añadir Prioridad")
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = "Añadir Prioridad"
+                )
             }
-        },
-        content = { paddingValues ->
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier.fillMaxSize().padding(innerPadding)
+        ) {
+            Spacer(modifier = Modifier.height(32.dp))
+            Text("Lista de Prioridades")
+
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                contentPadding = PaddingValues(16.dp)
+                modifier = Modifier.fillMaxSize()
             ) {
-                items(prioridadList) { prioridad ->
+                items(uiState.prioridades) {
                     PrioridadRow(
-                        prioridad = prioridad,
-                        goToPrioridad = goToPrioridad
+                        it,
+                        goToPrioridad,
+                        goToAddPrioridad
                     )
                 }
             }
         }
-    )
 
+    }
 }
 
 
 @Composable
 fun PrioridadRow(
-    prioridad: PrioridadEntity,
+    it: PrioridadEntity,
     goToPrioridad: (Int) -> Unit,
+    goToAddPrioridad: () -> Unit
 ){
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp)
-            .clickable { goToPrioridad(prioridad.prioridadId ?: 0) }
+            .clickable { goToPrioridad(it.prioridadId ?: 0) }
 
     ){
         Text(
-            text = prioridad.descripcion,
+            text = it.descripcion,
             modifier = Modifier.weight(2f)
         )
         Text(
-            text = prioridad.diasCompromiso.toString(),
+            text = it.diasCompromiso.toString(),
             modifier = Modifier.weight(2f)
         )
     }
