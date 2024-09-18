@@ -1,32 +1,32 @@
 package edu.ucne.prioridades.presentation.ticket
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.*
+import androidx.compose.ui.draw.clip
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.material3.Text
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
-import androidx.compose.runtime.getValue
-import androidx.compose.foundation.layout.Row
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.runtime.rememberCoroutineScope
+import edu.ucne.prioridades.data.local.entities.PrioridadEntity
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.toSize
+import edu.ucne.prioridades.ui.theme.PrioridadesTheme
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @Composable
 fun TicketScreen(
@@ -43,7 +43,10 @@ fun TicketScreen(
         saveTicket = viewModel::save,
         deleteTicket = viewModel::delete,
         nuevoTicket = viewModel::nuevo,
-        goBack = goBack
+        goBack = goBack,
+        onPrioridadIdChange = viewModel::onPrioridadIdChange,
+        onDescripcionChange = viewModel::onDescripcionChange,
+        ticketId = ticketId,
     )
 }
 
@@ -53,12 +56,23 @@ fun TicketBodyScreen(
     uiState: UiState,
     onClienteChange: (String) -> Unit,
     onAsuntoChange: (String) -> Unit,
+    onDescripcionChange: (String) -> Unit,
     onTicketIdChange: (Int) -> Unit,
     saveTicket: () -> Unit,
+    ticketId: Int,
     deleteTicket: () -> Unit,
     nuevoTicket: () -> Unit,
-    goBack: () -> Unit
+    goBack: () -> Unit,
+    onPrioridadIdChange: (Int) -> Unit
 ) {
+    val priorities = uiState.prioridades
+    var expanded by remember { mutableStateOf(false) }
+    var selectedPriority by remember { mutableStateOf(uiState.prioridadId ?: 0) }
+    var priorityDescription by remember {
+        mutableStateOf(priorities.find { it.prioridadId == selectedPriority }?.descripcion ?: "Seleccionar prioridad")
+
+
+    }
 
     Scaffold(
         topBar = {
@@ -91,7 +105,6 @@ fun TicketBodyScreen(
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
-
                     OutlinedTextField(
                         label = { Text(text = "Cliente") },
                         value = uiState.cliente ?: "",
@@ -108,6 +121,51 @@ fun TicketBodyScreen(
                     uiState.errorMessage?.let {
                         Text(text = it, color = Color.Red)
                     }
+                    OutlinedTextField(
+                        label = { Text(text = "Descripcion") },
+                        value = uiState.descripcion ?: "",
+                        onValueChange = onDescripcionChange,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    // Priority Dropdown Menu
+                    OutlinedTextField(
+                        readOnly = true,
+                        label = { Text("Prioridad") },
+                        value = priorityDescription,
+                        onValueChange = { /* No-op */ },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { expanded = true },
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = "Select Priority",
+                                modifier = Modifier
+                                    .clickable { expanded = !expanded }
+                            )
+                        }
+                    )
+                    DropdownMenu (
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        if (priorities.isEmpty()) {
+                            Text("No hay prioridades disponibles", modifier = Modifier.padding(16.dp))
+                        } else {
+                            priorities.forEach { prioridad ->
+                                DropdownMenuItem(
+                                    text = { Text(prioridad.descripcion) },
+                                    onClick = {
+                                        selectedPriority = prioridad.prioridadId ?: 0
+                                        priorityDescription = prioridad.descripcion
+                                        onPrioridadIdChange(selectedPriority)
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
+                    }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
@@ -122,9 +180,7 @@ fun TicketBodyScreen(
                             )
                             Text(text = "Nuevo")
                         }
-                        val scope = rememberCoroutineScope()
                         OutlinedButton(
-
                             onClick = {
                                 saveTicket()
                                 goBack()
@@ -136,10 +192,24 @@ fun TicketBodyScreen(
                             )
                             Text(text = "Guardar")
                         }
+
+                        if (ticketId != 0) {
+                            Button(
+                                onClick = {
+                                    deleteTicket()
+                                    goBack()
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Eliminar Ticket"
+                                )
+                                Text("Eliminar")
+                            }
+                        }
                     }
                 }
             }
-
         }
     }
 }
