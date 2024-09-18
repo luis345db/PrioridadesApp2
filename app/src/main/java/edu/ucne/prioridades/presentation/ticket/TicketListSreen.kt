@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -25,13 +26,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import edu.ucne.prioridades.data.local.entities.PrioridadEntity
 import edu.ucne.prioridades.data.local.entities.TicketEntity
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun TicketListScreen(
     viewModel: TicketViewModel = hiltViewModel(),
     goToTicket: (Int) -> Unit,
-    createTicket: () -> Unit
+    createTicket: () -> Unit,
+    onEditTicket: () -> Unit,
+    onDeleteTicket: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     TicketListBodyScreen(
@@ -73,7 +78,8 @@ fun TicketListBodyScreen(
                     TicketRow(
                         it,
                         goToTicket,
-                        createTicket
+                        createTicket,
+                        prioridades = uiState.prioridades
                     )
                 }
             }
@@ -84,9 +90,13 @@ fun TicketListBodyScreen(
 private fun TicketRow(
     it: TicketEntity,
     goToTicket: (Int) -> Unit,
-    createTicket: () -> Unit
+    createTicket: () -> Unit,
+    prioridades: List<PrioridadEntity>
 ) {
+val descripcionPrio =prioridades.find {prioridad ->
+    prioridad.prioridadId == it.prioridadId
 
+}?.descripcion
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -105,6 +115,10 @@ private fun TicketRow(
                 style = MaterialTheme.typography.headlineLarge
             )
             Text(modifier = Modifier.weight(2f), text = it.asunto)
+
+            Text(modifier = Modifier.weight(2f), text = it.descripcion)
+
+            Text(modifier = Modifier.weight(2f), text = descripcionPrio.toString())
         }
     }
     HorizontalDivider()
