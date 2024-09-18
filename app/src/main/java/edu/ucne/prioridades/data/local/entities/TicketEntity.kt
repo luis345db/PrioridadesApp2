@@ -20,10 +20,10 @@ import java.util.Date
 
 
 data class TicketEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val ticketId: Int? = null,
     val fecha: Date? = null,
-    val prioridadId: Int = 0,
+    val prioridadId: Int,
     val cliente: String = "",
     val asunto: String = "",
     val descripcion: String= ""
