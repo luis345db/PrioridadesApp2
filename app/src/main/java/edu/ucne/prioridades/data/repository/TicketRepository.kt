@@ -9,7 +9,7 @@ class TicketRepository @Inject constructor(
 ) {
     suspend fun save(ticket: TicketEntity) = ticketDao.save(ticket)
 
-    suspend fun getTicketById(ticketId: Int) = ticketDao.find(ticketId)
+    suspend fun getTicket(ticketId: Int) = ticketDao.find(ticketId)
 
     suspend fun findCliente(cliente: String) = ticketDao.findCliente(cliente)
 
