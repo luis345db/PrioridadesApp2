@@ -48,4 +48,3 @@ interface TicketDao {
     fun getAll(): Flow<List<TicketEntity>>
 }
 
-}
