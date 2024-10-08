@@ -64,7 +64,7 @@ class TicketViewModel @Inject constructor(
                         cliente = ticket?.cliente,
                         asunto = ticket?.asunto,
                         descripcion = ticket?.descripcion,
-                        prioridadId = ticket?.ticketId
+                        prioridadId = ticket?.prioridadId
 
                     )
                 }

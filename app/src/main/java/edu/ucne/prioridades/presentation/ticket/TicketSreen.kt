@@ -35,6 +35,12 @@ fun TicketScreen(
     goBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = ticketId) {
+        if (ticketId != 0) {
+            viewModel.selectedTicket(ticketId)
+        }
+    }
     TicketBodyScreen(
         uiState = uiState,
         onClienteChange = viewModel::onClienteChange,

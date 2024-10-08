@@ -32,9 +32,6 @@ import edu.ucne.prioridades.presentation.prioridad.PrioridadViewModel.UiState
 @Composable
 fun PrioridadListScreen(
     viewModel: PrioridadViewModel = hiltViewModel(),
-
-
-
     goToPrioridad: (Int) -> Unit,
     goToAddPrioridad: () -> Unit,
     onEditPrioridad: () -> Unit,
@@ -59,7 +56,6 @@ fun PrioridadListBodyScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick =  goToAddPrioridad,
-
             ) {
                 Icon(
                     Icons.Default.Add,

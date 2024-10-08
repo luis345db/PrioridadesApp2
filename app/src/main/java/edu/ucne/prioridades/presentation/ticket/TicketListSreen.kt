@@ -53,13 +53,14 @@ fun TicketListBodyScreen(
     goToTicket: (Int) -> Unit,
     createTicket: () -> Unit
 ) {
-    Scaffold(modifier = Modifier.fillMaxSize(),
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(
-                onClick = createTicket
+                onClick = createTicket,
             ) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                     Icons.Default.Add,
                     contentDescription = "Create a new Ticket"
                 )
             }
