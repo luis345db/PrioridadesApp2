@@ -64,7 +64,7 @@ class PrioridadViewModel @Inject constructor(
 
     fun delete(){
         viewModelScope.launch {
-            prioridadRepository.delete(_uiState.value.toEntity())
+            prioridadRepository.delete(_uiState.value.prioridadId!!)
         }
     }
 
