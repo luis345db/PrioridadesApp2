@@ -125,76 +125,48 @@ private fun TicketRow(
     Column(
         modifier = Modifier
             .fillMaxSize()
-
     ) {
         Card(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .fillMaxWidth()
-                .clickable { expanded = true },
+                .clickable { onEditTicket(ticket.ticketId!!) }, // Navegar al registro con el ID del ticket
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-        ) { Column(
-            modifier = Modifier.padding(16.dp)
         ) {
-            Text(
-                text = "TicketID: ${ticket.ticketId}",
-                style = MaterialTheme.typography.bodyLarge
-            )
-            Text(
-                text = "Fecha: ${dateFormat.format(ticket.fecha)}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Cliente: $nombreCliente",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Sistema: $nombreSistema",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Prioridad: $descripcionPrioridad",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Solicitado por: ${ticket.solicitadoPor}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Asunto: ${ticket.asunto}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Descripción: ${ticket.descripcion}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
+            Column(
+                modifier = Modifier.padding(16.dp)
             ) {
-                DropdownMenuItem(
-                    text = { Text("Editar") },
-                    onClick = {
-                        expanded = false
-                        onEditTicket(ticket.ticketId!!)
-                    }
+                Text(
+                    text = "Fecha: ${dateFormat.format(ticket.fecha)}",
+                    style = MaterialTheme.typography.bodyMedium
                 )
-                DropdownMenuItem(
-                    text = { Text("Eliminar") },
-                    onClick = {
-                        expanded = false
-                        onDeleteTicket(ticket.ticketId!!)
-                    }
+                Text(
+                    text = "Cliente: $nombreCliente",
+                    style = MaterialTheme.typography.bodyMedium
                 )
+                Text(
+                    text = "Sistema: $nombreSistema",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Prioridad: $descripcionPrioridad",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Solicitado por: ${ticket.solicitadoPor}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Asunto: ${ticket.asunto}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Descripción: ${ticket.descripcion}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
         }
-
+        HorizontalDivider()
     }
-    }
-    HorizontalDivider()
 }
-
-
-
-
