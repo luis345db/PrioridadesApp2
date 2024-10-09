@@ -316,17 +316,19 @@ fun TicketBodyScreen(
                             Text(text = "Guardar")
                         }
 
-                        Button(
-                            onClick = {
-                                deleteTicket()
-                                goBack()
+                        if (ticketId != 0) {
+                            Button(
+                                onClick = {
+                                    deleteTicket()
+                                    goBack()
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Eliminar Ticket"
+                                )
+                                Text("Eliminar")
                             }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "Eliminar Ticket"
-                            )
-                            Text("Eliminar")
                         }
                     }
                 }
