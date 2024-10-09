@@ -106,7 +106,7 @@ class TicketViewModel @Inject constructor(
         }
     }
 
-    private fun getTickets() {
+    fun getTickets() {
         viewModelScope.launch {
             val tickets = ticketRepository.getTickets()
             _uiState.update {
