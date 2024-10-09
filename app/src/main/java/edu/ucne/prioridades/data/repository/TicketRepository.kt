@@ -18,7 +18,7 @@ class TicketRepository @Inject constructor(
         try {
             ticketsApi.deleteTickets(ticket)
         } catch (e: Exception) {
-            // Maneja el error aquí (puedes lanzar una excepción personalizada o hacer otra cosa)
+
             throw e
         }
     }

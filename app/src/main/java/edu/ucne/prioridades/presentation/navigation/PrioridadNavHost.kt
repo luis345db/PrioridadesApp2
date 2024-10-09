@@ -45,7 +45,7 @@ fun PrioridadNavHost(
 
     NavHost(
         navController = navHost,
-        startDestination = Screen.TicketList
+        startDestination = Screen.PrioridadList
     ) {
         composable<Screen.PrioridadList> {
             PrioridadListScreen(

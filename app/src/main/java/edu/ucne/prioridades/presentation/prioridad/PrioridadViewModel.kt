@@ -24,14 +24,22 @@ class PrioridadViewModel @Inject constructor(
 
     fun save() {
         viewModelScope.launch {
-            if(_uiState.value.descripcion.isNullOrBlank() && _uiState.value.diasCompromiso == 0){
-                _uiState.update{
-                    it.copy(errorMessage = "Campos vacios")
-                }
-            }
-            else{
+            val errorMessage = validate()
+            if (errorMessage != null) {
+                _uiState.update { it.copy(errorMessage = errorMessage) }
+            } else {
                 prioridadRepository.save(_uiState.value.toEntity())
+                getPrioridades() // Actualiza la lista de prioridades después de guardar
+                nuevo() // Reinicia el estado para permitir el ingreso de una nueva prioridad
             }
+        }
+    }
+
+    private fun validate(): String? {
+        return when {
+            _uiState.value.descripcion.isNullOrBlank() -> "La descripción no puede estar vacía"
+            _uiState.value.diasCompromiso == null -> "Los días de compromiso no pueden estar vacíos"
+            else -> null
         }
     }
 
@@ -62,13 +70,24 @@ class PrioridadViewModel @Inject constructor(
         }
     }
 
-    fun delete(){
+    fun delete() {
         viewModelScope.launch {
-            prioridadRepository.delete(_uiState.value.prioridadId!!)
+            try {
+                _uiState.value.prioridadId?.let { id ->
+                    prioridadRepository.delete(id)
+                    getPrioridades()
+                    nuevo()
+                } ?: run {
+
+                    _uiState.update { it.copy(errorMessage = "No se puede eliminar la prioridad, ID es nulo") }
+                }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(errorMessage = "Error al eliminar la prioridad") }
+            }
         }
     }
 
-    private fun getPrioridades(){
+    fun getPrioridades(){
         viewModelScope.launch {
             val prioridades = prioridadRepository.getPrioridades()
                 _uiState.update {
