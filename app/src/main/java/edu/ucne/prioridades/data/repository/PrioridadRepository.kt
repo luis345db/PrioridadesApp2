@@ -1,7 +1,5 @@
 package edu.ucne.prioridades.data.repository
 
-import edu.ucne.prioridades.data.local.dao.PrioridadDao
-import edu.ucne.prioridades.data.local.entities.PrioridadEntity
 import edu.ucne.prioridades.data.remote.PrioridadesApi
 import edu.ucne.prioridades.data.remote.dto.PrioridadDto
 import javax.inject.Inject
