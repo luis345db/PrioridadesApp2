@@ -143,18 +143,23 @@ fun PrioridadBodyScreen(
                         )
 
                     OutlinedTextField(
-                        label = { Text(text = "Dias Compromiso") },
-                        value = uiState.diasCompromiso?.toString() ?: "", // Convertimos el valor a String
+                        label = { Text(text = "Días Compromiso") },
+                        value = uiState.diasCompromiso?.toString() ?: "",
                         onValueChange = { newValue ->
-                            // Intentamos convertir el texto ingresado a un número entero
-                            val intValue = newValue.toIntOrNull()
-                            if (intValue != null) {
-                                onDiasCompromisoChange(intValue) // Actualiza el valor si es un número entero
+                            if (newValue.isEmpty()) {
+
+                                onDiasCompromisoChange(0)
+                            } else {
+
+                                val intValue = newValue.toIntOrNull()
+                                if (intValue != null) {
+                                    onDiasCompromisoChange(intValue)
+                                }
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Number // Mostramos un teclado numérico
+                            keyboardType = KeyboardType.Number
                         )
                     )
 
