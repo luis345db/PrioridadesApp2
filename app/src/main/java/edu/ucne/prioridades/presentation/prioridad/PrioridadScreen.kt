@@ -226,16 +226,3 @@ fun PrioridadScreenPreview(){
         )
     }
 }
-/*suspend fun savePrioridad(dao: PrioridadDao, prioridad: PrioridadEntity) {
-        if (prioridad.descripcion.isBlank()) {
-            throw IllegalArgumentException("Favor ingresar la descripción")
-        }
-        if (prioridad.diasCompromiso == null || prioridad.diasCompromiso!! <= 0) {
-            throw IllegalArgumentException("No ingresar cero ni dígitos menores que cero")
-        }
-        val existePrioridad = dao.findByDescripcion(prioridad.descripcion)
-        if (existePrioridad != null && existePrioridad.prioridadId != prioridad.prioridadId) {
-            throw IllegalArgumentException("Ya existe una prioridad con esta descripción")
-        }
-        dao.save(prioridad)
-}*/

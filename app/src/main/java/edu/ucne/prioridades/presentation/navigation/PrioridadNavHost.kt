@@ -68,18 +68,17 @@ fun PrioridadNavHost(
 
         composable<Screen.TicketList> {
             TicketListScreen(
-                goToTicket = {
-                    navHost.navigate(Screen.Ticket(it))
-                },
+
                 createTicket = {
-                    navHost.navigate(Screen.Ticket(0))
-                },
-                onDeleteTicket = {
-                    navHost.navigate(Screen.Ticket(0))
+                    navHost.navigate(Screen.Ticket(0, false))
                 },
                 onEditTicket = {
-                    navHost.navigate(Screen.Ticket(0))
+                    navHost.navigate(Screen.Ticket(it, false))
+                },
+                onDeleteTicket = {
+                    navHost.navigate(Screen.Ticket(it, true))
                 }
+
 
 
             )
@@ -113,7 +112,8 @@ fun PrioridadNavHost(
                 ticketId = args.ticketId,
                 goBack = {
                     navHost.navigateUp()
-                }
+                },
+                isTicketDelete = args.isTicketDelete
             )
         }
     }

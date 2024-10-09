@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import edu.ucne.prioridades.data.local.entities.PrioridadEntity
+import edu.ucne.prioridades.data.remote.dto.PrioridadDto
 import edu.ucne.prioridades.presentation.prioridad.PrioridadViewModel.UiState
 
 @Composable
@@ -89,7 +90,7 @@ fun PrioridadListBodyScreen(
 
 @Composable
 fun PrioridadRow(
-    it: PrioridadEntity,
+    it: PrioridadDto,
     goToPrioridad: (Int) -> Unit,
     goToAddPrioridad: () -> Unit
 ){

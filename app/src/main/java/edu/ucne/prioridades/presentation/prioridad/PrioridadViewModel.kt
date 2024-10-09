@@ -2,9 +2,8 @@ package edu.ucne.prioridades.presentation.prioridad
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.PrimaryKey
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.ucne.prioridades.data.local.entities.PrioridadEntity
+import edu.ucne.prioridades.data.remote.dto.PrioridadDto
 import edu.ucne.prioridades.data.repository.PrioridadRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -65,18 +64,18 @@ class PrioridadViewModel @Inject constructor(
 
     fun delete(){
         viewModelScope.launch {
-            prioridadRepository.delete(_uiState.value.toEntity())
+            prioridadRepository.delete(_uiState.value.prioridadId!!)
         }
     }
 
     private fun getPrioridades(){
         viewModelScope.launch {
-            prioridadRepository.getPrioridades().collect { prioridades ->
+            val prioridades = prioridadRepository.getPrioridades()
                 _uiState.update {
                     it.copy(prioridades = prioridades)
                 }
 
-            }
+
         }
     }
 
@@ -103,13 +102,13 @@ class PrioridadViewModel @Inject constructor(
         val descripcion: String? = "",
         val diasCompromiso: Int? = null,
         val errorMessage: String? = null,
-        val prioridades: List<PrioridadEntity> = emptyList()
+        val prioridades: List<PrioridadDto> = emptyList()
     )
 
-    fun UiState.toEntity() = PrioridadEntity(
+    fun UiState.toEntity() = PrioridadDto(
         prioridadId = prioridadId,
         descripcion = descripcion ?: "",
-        diasCompromiso = diasCompromiso ?: null
+        diasCompromiso = diasCompromiso?: 0
     )
 
 
