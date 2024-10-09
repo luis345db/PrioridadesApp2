@@ -9,7 +9,9 @@ import edu.ucne.prioridades.data.remote.dto.ClienteDto
 import edu.ucne.prioridades.data.remote.dto.PrioridadDto
 import edu.ucne.prioridades.data.remote.dto.SistemaDto
 import edu.ucne.prioridades.data.remote.dto.TicketDto
+import edu.ucne.prioridades.data.repository.ClienteRepository
 import edu.ucne.prioridades.data.repository.PrioridadRepository
+import edu.ucne.prioridades.data.repository.SistemaRepository
 import edu.ucne.prioridades.data.repository.TicketRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +25,9 @@ import javax.inject.Inject
 @HiltViewModel
 class TicketViewModel @Inject constructor(
     private val ticketRepository: TicketRepository,
-    private val prioridadRepository: PrioridadRepository
+    private val prioridadRepository: PrioridadRepository,
+    private val sistemaRepository: SistemaRepository,
+    private val clienteRepository: ClienteRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
@@ -31,6 +35,8 @@ class TicketViewModel @Inject constructor(
     init {
         getTickets()
         getPrioridades()
+        getSistemas()
+        getClientes()
     }
 
     fun save() {
@@ -40,6 +46,7 @@ class TicketViewModel @Inject constructor(
                 _uiState.update { it.copy(errorMessage = errorMessage) }
             } else {
                 ticketRepository.save(_uiState.value.toEntity())
+                getTickets()
                 nuevo()
             }
         }
@@ -94,6 +101,7 @@ class TicketViewModel @Inject constructor(
     fun delete() {
         viewModelScope.launch {
             ticketRepository.delete(_uiState.value.ticketId!!)
+           getTickets()
             nuevo()
         }
     }
@@ -115,37 +123,66 @@ class TicketViewModel @Inject constructor(
             }
         }
     }
-
+    private fun getSistemas() {
+        viewModelScope.launch {
+            val sistemas = sistemaRepository.getSistema()
+            _uiState.update {
+                it.copy(sistemas = sistemas)
+            }
+        }
+    }
+    private fun getClientes() {
+        viewModelScope.launch {
+            val clientes = clienteRepository.getCliente()
+            _uiState.update {
+                it.copy(clientes = clientes)
+            }
+        }
+    }
+    fun onTicketIdChange(ticketId: Int) {
+        _uiState.update {
+            it.copy(ticketId = ticketId)
+        }
+    }
     fun onClienteIdChange(clienteId: Int) {
         _uiState.update {
             it.copy(clienteId = clienteId, errorMessage = null)
         }
     }
 
-    fun onDescripcionChange(descripcion: String) {
-        _uiState.update {
-            it.copy(descripcion = descripcion)
-        }
-    }
-
     fun onAsuntoChange(asunto: String) {
         _uiState.update {
-            it.copy(asunto = asunto)
+            it.copy(asunto = asunto, errorMessage = null)
         }
     }
 
-    fun onTicketIdChange(ticketId: Int) {
+    fun onDescripcionChange(descripcion: String) {
         _uiState.update {
-            it.copy(ticketId = ticketId)
+            it.copy(descripcion = descripcion, errorMessage = null)
         }
     }
 
-    fun onPrioridadIdChange(prioridadId: Int) {
+    fun onFechaChange(fecha: Date) {
+        _uiState.update {
+            it.copy(fecha = fecha, errorMessage = null)
+        }
+    }
+
+    fun onPrioridadChange(prioridadId: Int) {
         _uiState.update {
             it.copy(prioridadId = prioridadId)
         }
     }
-
+    fun onSolicitadoPorChange(solicitadoPor: String) {
+        _uiState.update {
+            it.copy(solicitadoPor = solicitadoPor, errorMessage = null)
+        }
+    }
+    fun onSistemaIdChange(sistemaId: Int) {
+        _uiState.update {
+            it.copy(sistemaId = sistemaId, errorMessage = null)
+        }
+    }
 }
 
 data class UiState(
