@@ -14,5 +14,5 @@ sealed class Screen {
     data object TicketList : Screen()
 
     @Serializable
-    data class Ticket(val ticketId: Int) : Screen()
+    data class Ticket(val ticketId: Int, val isTicketDelete: Boolean) : Screen()
 }
