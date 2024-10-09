@@ -50,9 +50,9 @@ fun TicketListScreen(
 
 
 ) {
-   /* LaunchedEffect(ticketId) {
-        viewModel.selectedTicket(ticketId)
-    }*/
+   LaunchedEffect(Unit) {
+       viewModel.getTickets()
+    }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     TicketListBodyScreen(
         uiState = uiState,
