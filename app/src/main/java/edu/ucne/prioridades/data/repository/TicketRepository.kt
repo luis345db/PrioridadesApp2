@@ -14,7 +14,13 @@ class TicketRepository @Inject constructor(
     suspend fun getTicket(ticketId: Int) = ticketsApi.getTickets(ticketId)
 
 
-    suspend fun delete(ticket: Int) = ticketsApi.deleteTickets(ticket)
-
+    suspend fun delete(ticket: Int) {
+        try {
+            ticketsApi.deleteTickets(ticket)
+        } catch (e: Exception) {
+            // Maneja el error aquí (puedes lanzar una excepción personalizada o hacer otra cosa)
+            throw e
+        }
+    }
     suspend fun getTickets() = ticketsApi.getAllTickets()
 }
