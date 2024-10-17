@@ -20,6 +20,6 @@ interface TicketsApi {
     suspend fun saveTickets(@Body ticketDto: TicketDto?): TicketDto
 
     @DELETE("/api/Tickets/{id}")
-    suspend fun deleteTickets(@Path("id") id: Int)
+    suspend fun deleteTickets(@Path("id") id: Int): Unit
 
 }

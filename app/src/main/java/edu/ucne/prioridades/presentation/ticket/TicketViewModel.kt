@@ -100,13 +100,17 @@ class TicketViewModel @Inject constructor(
 
     fun delete() {
         viewModelScope.launch {
-            ticketRepository.delete(_uiState.value.ticketId!!)
-           getTickets()
-            nuevo()
+            try {
+                ticketRepository.delete(_uiState.value.ticketId!!)
+                getTickets()
+                nuevo()
+            } catch (e: Exception) {
+                _uiState.update { it.copy(errorMessage = "Error al eliminar el ticket") }
+            }
         }
     }
 
-    private fun getTickets() {
+    fun getTickets() {
         viewModelScope.launch {
             val tickets = ticketRepository.getTickets()
             _uiState.update {

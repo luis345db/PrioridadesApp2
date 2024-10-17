@@ -11,7 +11,14 @@ class PrioridadRepository @Inject constructor(
 
     suspend fun  getPrioridad(id:Int) = prioridadesApi.getPrioridad(id)
 
-    suspend fun  delete(id: Int) = prioridadesApi.deletePrioridad(id)
+    suspend fun  delete(id: Int) {
+        try {
+            prioridadesApi.deletePrioridad(id)
+        } catch (e: Exception) {
+
+            throw e
+        }
+    }
 
     suspend fun  getPrioridades()= prioridadesApi.getAllPrioridades()
 

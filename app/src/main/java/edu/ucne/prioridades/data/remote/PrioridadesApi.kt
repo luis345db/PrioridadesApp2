@@ -18,6 +18,6 @@ interface PrioridadesApi {
     suspend fun savePrioridad(@Body prioridadDto: PrioridadDto?): PrioridadDto
 
     @DELETE("/api/Prioridades/{id}")
-    suspend fun deletePrioridad(@Path("id") id: Int)
+    suspend fun deletePrioridad(@Path("id") id: Int) :Unit
 
 }
